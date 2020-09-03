@@ -1,11 +1,4 @@
-<?php
-/**
-SOIL CONNECT CONFIDENTIAL Copyright © 2017 Soil Connect, Inc. All Rights Reserved.
-
-NOTICE: All information contained herein is, and remains the property of Soil Connect, Inc.. and its suppliers and licensors, if any. The intellectual and technical concepts contained herein are proprietary to Soil Connect, Inc.. and its suppliers and licensors and are protected by trade secret or copyright law. Dissemination of this information or reproduction of this material is strictly forbidden unless prior written permission is obtained from Soil Connect, Inc.
- */
-?>
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -173,66 +166,27 @@ NOTICE: All information contained herein is, and remains the property of Soil Co
                             <div class="l_col adrs">
                                 <h2>Add New Address</h2>
 
-                                <form action="" method="">
-                                    <div class="field">
-                                        <label>Name *</label>
-                                        <input type="text" value="" palceholder="" class="vl_empty" />
-                                    </div>
-                                    <div class="field">
-                                        <label>Your city *</label>
-                                        <select class="vl_empty">
-                                            <option class="plh"></option>
-                                            <option value="1">City 1</option>
-                                            <option value="2">City 2</option>
-                                        </select>
-                                    </div>
-                                    <div class="field">
-                                        <label>Your area *</label>
-                                        <select>
-                                            <option class="plh"></option>
-                                            <option>Area 1</option>
-                                            <option>Area 2</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="field">
-                                        <label>Street</label>
-                                        <input type="text" value="" palceholder="" class="vl_empty" />
-                                    </div>
-                                    <div class="field">
-                                        <label>House # </label>
-                                        <input type="text" value="" palceholder="House Name / Number" />
-                                    </div>
-
-                                    <div class="field">
-                                        <label class="pos_top">Additional information</label>
-                                        <textarea></textarea>
-                                    </div>
-
-                                    <div class="field">
-                                        <input type="submit" value="add address" class="green_btn" />
-                                    </div>
-                                </form>
+                                {{ Form::open(['route' => 'address.store', 'method' => 'POST']) }}
+                                @include('address.fields')
+                                {{ Form::button('add address', ['type' => 'submit', 'class' => 'green_btn']) }}
+                                {{ Form::close() }}
                             </div>
 
                             <div class="r_col">
                                 <h2>My Addresses</h2>
-
                                 <div class="uo_adr_list">
-                                    <div class="item">
-                                        <h3>HOME Address</h3>
-                                        <p>Dubai, Business Bay Area, Sheikh Zayed Road, Single </p>
-                                        <div class="actbox">
-                                            <a href="#" class="bcross"></a>
+                                    @foreach($addresses as $address)
+                                        <div class="item">
+                                            <h3>{{ $address->name ?? '' }}</h3>
+                                            <p>{{ \App\Common\Source\City::get($address->city) }},
+                                                {{ \App\Common\Source\Area::get($address->area) }},
+                                                {{ $address->street ?? '' }}, {{ $address->house ?? '' }} </p>
+                                            <p>{{ $address->info ?? '' }}</p>
+                                            <div class="actbox">
+                                                <a href="#" class="bcross"></a>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="item">
-                                        <h3>Work Address</h3>
-                                        <p>Dubai, Business Bay Area, Sheikh Zayed Road, Single<br/>Business Tower, Suite 2204</p>
-                                        <div class="actbox">
-                                            <a href="#" class="bcross"></a>
-                                        </div>
-                                    </div>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
